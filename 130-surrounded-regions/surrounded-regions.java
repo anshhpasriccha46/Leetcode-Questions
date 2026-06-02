@@ -20,7 +20,7 @@ class Solution {
                 if(!visited[i][j] && grid[i][j] == 'O'){
                     visited = new boolean[grid.length][grid[0].length];
                      if(!dfs(new Coord(i , j) , visited , grid)){
-                        System.out.println(i+" "+j);
+                      
                          Q.add(new Coord(i , j));
                      }
                      
