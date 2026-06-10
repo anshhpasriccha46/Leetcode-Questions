@@ -23,17 +23,17 @@ class Solution {
 
         }
         best[k] = 0;
-        Queue<node> q = new LinkedList<>();
-        q.add(new node(  k , 0) );
+        Queue<Integer> q = new LinkedList<>();
+        q.add( k );
         int timeTaken = Integer.MIN_VALUE;
 
         while( !q.isEmpty() ){
-            node temp = q.poll();
-           for(node neigh : g.get(temp.n)){
-            int a = temp.time + neigh.time;
+            int temp = q.poll();
+           for(node neigh : g.get(temp)){
+            int a = best[temp] + neigh.time;
             if(best[neigh.n] > a){
                 best[neigh.n] = a;
-                q.add(new node(neigh.n , a));
+                q.add( neigh.n );
             }
            }
             
