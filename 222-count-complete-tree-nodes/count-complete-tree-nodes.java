@@ -1,54 +1,41 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-import java.util.*;
 class Solution {
+
     public int countNodes(TreeNode root) {
-        if(root == null ) return 0;
-        Queue<TreeNode> q = new LinkedList<>();
 
-        q.add(root);
-        int count = 0;
-        while(!q.isEmpty()){
-            int size = q.size();    
-            boolean found = false;
+        if (root == null)
+            return 0;
 
-            for(int i=0 ; i<size ; i++){
-                TreeNode temp = q.poll();
-                count++;
-                if(temp.left == null){
-                    found = true;
-                    break;
-                }
-                else{
-                    q.add(temp.left);
-                }
-                if(temp.right == null){
-                    found = true;
-                    break;
-                }
-                else{
-                    q.add(temp.right);
+        int left = leftHeight(root);
+        int right = rightHeight(root);
 
-                }
-            }
-            if(found == true){
-             count+=q.size();
-             break;
-            }
+        // If it's a perfect binary tree
+        if (left == right) {
+            return (int) Math.pow(2, left) - 1;
         }
-        return count;
+
+        // Otherwise recurse
+        return 1 + countNodes(root.left) + countNodes(root.right);
+    }
+
+    private int leftHeight(TreeNode root) {
+        int height = 0;
+
+        while (root != null) {
+            height++;
+            root = root.left;
+        }
+
+        return height;
+    }
+
+    private int rightHeight(TreeNode root) {
+        int height = 0;
+
+        while (root != null) {
+            height++;
+            root = root.right;
+        }
+
+        return height;
     }
 }
