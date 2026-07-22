@@ -22,7 +22,6 @@ class Solution {
         if(indeg[i]==0){
             q.add(i);
             ans.add(i);
-            indeg[i]= -1;
             
         }
       }
@@ -33,7 +32,6 @@ class Solution {
             if(indeg[i]==0){
                 q.add(i);
                 ans.add(i);
-                indeg[i] = -1;
             }
         }
       }
