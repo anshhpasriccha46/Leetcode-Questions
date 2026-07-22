@@ -10,52 +10,40 @@ class Coord{
 class Solution {
     int dx[] = {-1 , 1 , 0 , 0};
     int dy[] = {0 ,0 , -1 , 1};
-    Queue<Coord> q = new LinkedList<>();
+    boolean found  = false;
+    int tot= 0;
     public int numEnclaves(int[][] grid) {
         boolean[][] v = new boolean[grid.length][grid[0].length];
-        int count = 0;
-        for(int i=1  ; i<grid.length-1 ; i++){
-            for(int j=1 ; j<grid[0].length-1 ; j++){
+        
+        for(int i=0  ; i<grid.length ; i++){
+            for(int j=0 ; j<grid[0].length ; j++){
                
                 if(grid[i][j] == 1 && !v[i][j]){
-                     v = new boolean[grid.length][grid[0].length];
-                   int what = dfs(new Coord(i , j)  ,  v ,grid);
-                //    if(what!=0){
-                //     System.out.println(i+" " + j + " " + what);
-                //    }
-                   count+=what;
+                    int count[] = {0};
+                    found = false;
+                   dfs(new Coord(i , j)  ,  v ,grid , count);
+                    if(!found) tot+=count[0];
+                 
                 }
             }
         }
         
-        return count;
+        return tot;
     }
-    public int dfs(Coord n , boolean[][] v , int[][] grid){
+    public void dfs(Coord n , boolean[][] v , int[][] grid , int[] count){
         v[n.x][n.y] = true;
-        if(n.x == 0 || n.x == grid.length-1 || n.y == 0 || n.y== grid[0].length-1 ){
-            v[n.x][n.y] = false;
-            return 0;
+         count[0]++;
+        if(n.x == 0 || n.x==grid.length-1 || n.y==0 || n.y==grid[0].length-1){
+            found = true;
         }
        
-        int count = 0;
         for(int i=0 ; i<4 ; i++){
-            int xc = n.x + dx[i];
-            int yc = n.y + dy[i];
-            int what = 0 ;
-            
-            if( xc>=0 && yc>=0 && xc<grid.length && yc<grid[0].length ){
-                if(!v[xc][yc] && grid[xc][yc] == 1 ){
-                     what = dfs(new Coord(xc, yc ) , v  ,grid);
-                    if(what == 0){
-                        return 0;
-                    }
-                    count+=what;
-                }
+            int x = n.x + dx[i];
+            int y = n.y + dy[i];
+            if(x >= 0 && x<grid.length && y>=0 && y<grid[0].length)
+            if(!v[x][y] && grid[x][y] == 1){
+                dfs(new Coord(x, y) , v, grid , count);
             }
-        
         }
-        grid[n.x][n.y] = 0;
-        return count+1;
-        
     }
 }
