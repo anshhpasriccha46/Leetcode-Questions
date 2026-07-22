@@ -25,7 +25,7 @@ class Solution {
         boolean found = false;
         int best[] = new int[num];
         Arrays.fill(best , Integer.MAX_VALUE);
-
+        best[src]= 0;
         while(!q.isEmpty()){
             int size = q.size();
             count++;
