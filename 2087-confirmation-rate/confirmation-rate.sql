@@ -1,5 +1,5 @@
 SELECT
-    n.user_id,
+    d.user_id,
     round(n.num / if(d.denomin=0 , 1 , d.denomin) , 2) AS confirmation_rate
 FROM
 (
