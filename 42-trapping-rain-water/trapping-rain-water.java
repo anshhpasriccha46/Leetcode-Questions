@@ -1,46 +1,37 @@
 class Solution {
     public int trap(int[] height) {
-        //if(height.length == 1) return 0;
-        int  l = -1;
-        
-        for(int i=0 ; i<height.length ; i++){
-            if(height[i]!=0){
-                 l = i;
-                 break;
+        int left = 0;
+        int right = height.length - 1;
+
+        int leftMax = 0;
+        int rightMax = 0;
+
+        int water = 0;
+
+        while (left < right) {
+
+            if (height[left] <= height[right]) {
+
+                if (height[left] >= leftMax) {
+                    leftMax = height[left];
+                } else {
+                    water += leftMax - height[left];
+                }
+
+                left++;
+
+            } else {
+
+                if (height[right] >= rightMax) {
+                    rightMax = height[right];
+                } else {
+                    water += rightMax - height[right];
+                }
+
+                right--;
             }
         }
-        if(l==-1) return 0;
-        int r = find(height , l);
-        int amt = 0;
-        while(r!=-1){
-            int min = Math.min(height[l] , height[r]);
-            int i = l+1;
-            while(i<r){
-                amt+=(min - height[i]);
-                i++;
-            }
-            l = r;
-            r = find(height , r);
-            
-        }
-        return amt;
-    }
-    public int find(int height[] , int r){
-        int l = r;
-        int potential = -1;
-        int comp = height[l];
-        for(int i=l+1 ; i<height.length ; i++){
-            if(height[i]!=0) {
-            potential = i;
-             break;
-             }
-        }
-        for(int i = l+1 ; i<height.length ; i++){
-            if(height[i] != 0){
-                if(height[potential] <= height[i]) potential = i;
-                if(height[i]>=height[l]) break;
-            }
-        }
-        return potential;
+
+        return water;
     }
 }
