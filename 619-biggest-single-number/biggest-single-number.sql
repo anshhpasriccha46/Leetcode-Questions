@@ -1,1 +1,1 @@
-select max(a.single) as num   from (select num as single from mynumbers group by num having count(num) = 1) a;
+select max(b.num) as num from mynumbers a join (select num from mynumbers group by num having count(num) = 1) b on a.num = b.num;
