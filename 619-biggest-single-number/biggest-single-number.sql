@@ -1,1 +1,1 @@
-select max(single) as num from (select num as single from mynumbers group by num having count(num) = 1) a;
+select max(a.single) as num   from (select num as single from mynumbers group by num having count(num) = 1) a;
