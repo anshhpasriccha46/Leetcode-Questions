@@ -1,6 +1,6 @@
-# Write your MySQL query statement below
-select  department.name as Department , a.name as Employee, a.salary as Salary  from employee a inner join department on a.departmentId = department.id
- where salary  in (
-    select salary from(
-    select distinct salary from employee where departmentId  = a.departmentId order by salary desc limit 3) b
-    ) ;
+select d.name as Department , t.employee , t.salary from 
+(select departmentId, name as employee , salary , 
+    DENSE_RANK() OVER (partition by departmentId  order by salary desc) as seq
+from employee ) t
+inner join department d on t.departmentId = d.Id
+where seq in (1  ,2 , 3);
