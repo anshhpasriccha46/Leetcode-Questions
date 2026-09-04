@@ -6,10 +6,9 @@ WHERE i.pid IN (
     JOIN Insurance b
         ON a.pid <> b.pid
         AND a.tiv_2015 = b.tiv_2015
-    WHERE (a.lat, a.lon) IN (
+    WHERE (a.lat, a.lon) NOT IN (
         SELECT lat, lon
-        FROM Insurance
-        GROUP BY lat, lon
-        HAVING COUNT(*) = 1
+        FROM Insurance l
+        where l.pid != a.pid
     )
 );
