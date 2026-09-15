@@ -1,39 +1,32 @@
 class Solution {
+    int max = Integer.MIN_VALUE;
     public int lengthOfLIS(int[] nums) {
-
-        int n = nums.length;
-        int dp[] = new int[n];
-
-        Arrays.fill(dp, -1);
-
-        int ans = 0;
-
-        for (int i = 0; i < n; i++) {
-            ans = Math.max(ans, kar(i, nums, dp));
-        }
-
-        return ans;
+        int dp[] = new int[nums.length];
+        Arrays.fill(dp , 1 );
+        kar(nums , dp , nums.length - 1);
+        // for(int i: dp){
+        //     System.out.println(i);
+        // }
+        return max;
     }
-
-    public int kar(int i, int[] nums, int[] dp) {
-
-        // Already calculated
-        if (dp[i] != -1) {
-            return dp[i];
-        }
-
-        // At least nums[i] itself
-        int max = 1;
-
-        for (int j = 0; j < i; j++) {
-
-            // nums[i] can be appended to sequence ending at j
-            if (nums[j] < nums[i]) {
-                int check = kar(j, nums, dp) + 1;
-                max = Math.max(max, check);
+    public void kar(int nums[] , int dp[] , int index){
+       if(index == 0){
+    max = Math.max(max, dp[0]);
+    return;
+    }
+      kar(nums , dp , index-1);
+        int ind = -1;
+        int val = 1;
+        for(int i=0 ; i<index ; i++){
+            if(nums[i]<nums[index]){
+                if(dp[i]>=val){
+                    val = dp[i];
+                    ind=i;
+                }
             }
         }
-
-        return dp[i] = max;
+        if(ind!=-1)dp[index]+=dp[ind];
+         max = Math.max(max , dp[index]);
+        
     }
 }
