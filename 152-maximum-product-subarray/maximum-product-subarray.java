@@ -14,17 +14,17 @@ class Solution {
     }
     public int kar(int dp[][] ,int nums[] , int i , int j){
         if(i==0){
-            System.out.println("INDEX: " + i + " returned" + dp[i][j]);
+            //System.out.println("INDEX: " + i + " returned" + dp[i][j]);
              max = Math.max(max , dp[i][1]);
              return dp[i][j];
         }
         if(j==0 && dp[i][j]!=Integer.MAX_VALUE){
-            System.out.println("INDEX: " + i + " returned" + dp[i][j]);
+            //System.out.println("INDEX: " + i + " returned" + dp[i][j]);
              
              return dp[i][j];
         }
         else if(j==1 && dp[i][j]!=Integer.MIN_VALUE){
-            System.out.println("INDEX: " + i + " returned" + dp[i][j]);
+            //System.out.println("INDEX: " + i + " returned" + dp[i][j]);
              
              return dp[i][j];
         }
@@ -35,7 +35,7 @@ class Solution {
         dp[i][1] = Math.max(one , Math.max(nums[i] , two));
         dp[i][0] = Math.min(one , Math.min(nums[i] , two));
         max = Math.max(max , dp[i][1]);
-        System.out.println("INDEX: " + i + " returned " + dp[i][j]);
+        //System.out.println("INDEX: " + i + " returned " + dp[i][j]);
 
         return dp[i][j];
     }
