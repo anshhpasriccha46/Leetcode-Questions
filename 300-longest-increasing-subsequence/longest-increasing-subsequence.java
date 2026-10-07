@@ -1,5 +1,5 @@
 class Solution {
-    int max = 1;
+    int max = Integer.MIN_VALUE;
     public int lengthOfLIS(int[] nums) {
         int dp[] = new int[nums.length];
         Arrays.fill(dp , -1);
@@ -11,6 +11,7 @@ class Solution {
     public int kar(int dp[] , int nums[] , int i){
         if(dp[i]!=-1) {
            // System.out.println("INDEX: " + i+ " value: " + dp[i]);
+            max = Math.max(max , dp[i]);
             return dp[i];
         }
         //int a = kar(dp , nums , i-1);
