@@ -11,7 +11,7 @@ class Solution {
              maxFreq = Math.max(maxFreq  , frq[s.charAt(r) - 'A']);
              while(r-l+1 - maxFreq > k){
                 frq[s.charAt(l) -'A']--;
-                maxFreq = Math.max(maxFreq  , frq[s.charAt(l) - 'A']);
+                maxFreq = Math.max(maxFreq  , frq[s.charAt(r) - 'A']);
                 l++;
              }
              maxLen = Math.max(maxLen , r-l+1);
