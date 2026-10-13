@@ -18,10 +18,9 @@ class Solution {
         }
        // System.out.println(count);
         temp = head;
-        if(n>count) return head;
+       
         if(n==count) return head.next;
-        if(count==1 && n==1 ) return head.next;
-        // if(count==2 && n==2) return head.next;
+        
         count = count - n + 1;
         //System.out.println(count);
         ListNode t = head;
