@@ -12,9 +12,9 @@ class Solution {
 
     }
     private int kar(int p[] , int dp[][] , int i , int a){
-        if(i==0){
-            return dp[i][a];
-        }
+        // if(i==0){
+        //     return dp[i][a];
+        // }
         if(dp[i][a]!=Integer.MIN_VALUE) return dp[i][a];
         dp[i][0] = Math.max(kar(p, dp ,i-1 , 0) , -p[i] );
         dp[i][1] = Math.max(kar(p , dp , i-1 , 1) , dp[i][0] + p[i]);
