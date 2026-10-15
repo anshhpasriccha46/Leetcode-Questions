@@ -1,48 +1,50 @@
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode temp = head, st = head;
         int count = 0;
-        ListNode prev = null;
-        ListNode temp = head;
+        ArrayList<ArrayList<ListNode>> l = new ArrayList<>();
 
-        while(temp != null){
+        while (temp != null) {
             count++;
 
-            if(count == k){
-                ListNode futurePrev;
-                if(prev!=null)  futurePrev = prev.next;
-                else futurePrev = head;
-                if(prev != null){
-                    prev.next = rev(prev.next, temp.next);
-                }
-                else{
-                    head = rev(head, temp.next);
-                }
-
+            if (count == k) {
                 count = 0;
-                prev = futurePrev;
-                temp = prev.next;
-            }
+                ListNode next = temp.next;
+                ListNode[] useThese = reverse(st, temp, next);
 
-          else   temp = temp.next;
+                l.add(new ArrayList<>());
+                l.get(l.size() - 1).add(useThese[0]);
+                l.get(l.size() - 1).add(useThese[1]);
+
+                st = next;
+                temp = next;
+            } else {
+                temp = temp.next;
+            }
         }
 
-        return head;
+        if (count > 0) {
+            ListNode lastTail = l.isEmpty() ? null : l.get(l.size() - 1).get(1);
+            if (lastTail != null) lastTail.next = st;
+            else return head;
+        }
+
+        for (int i = 0; i < l.size() - 1; i++)
+            l.get(i).get(1).next = l.get(i + 1).get(0);
+
+        return l.isEmpty() ? head : l.get(0).get(0);
     }
 
-    public ListNode rev(ListNode head, ListNode end){
-        ListNode prev = null;
-        ListNode curr = head;
-        ListNode next = null;
+    private ListNode[] reverse(ListNode head, ListNode tail, ListNode aage) {
+        ListNode prev = aage, curr = head;
 
-        while(curr != end){
-            next = curr.next;
+        while (curr != aage) {
+            ListNode next = curr.next;
             curr.next = prev;
             prev = curr;
             curr = next;
         }
 
-        head.next = end;
-
-        return prev;
+        return new ListNode[]{tail, head};
     }
 }
