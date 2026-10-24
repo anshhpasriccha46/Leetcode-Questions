@@ -1,49 +1,46 @@
 import java.util.*;
 
-class node{
-    int n;
-    int price;
-    node(int a,  int c){
-        n = a;
-        price = c;
+class city {
+    int node, price, stops;
+
+    city(int a, int b, int c) {
+        node = a;
+        price = b;
+        stops = c;
     }
 }
+
 class Solution {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        ArrayList<ArrayList<int[]>> g = new ArrayList<>();
+        for (int i = 0; i < n; i++) g.add(new ArrayList<>());
+        for (int[] f : flights)
+            g.get(f[0]).add(new int[]{f[1], f[2]});
 
-    public int findCheapestPrice(int num, int[][] flights, int src, int dst, int k) {
-        ArrayList<ArrayList<node>> g = new ArrayList<>();
-        for(int i=0 ; i<num ; i++){
-            g.add(new ArrayList<>());
-        }
-        for(int i[] : flights){
-            g.get(i[0]).add(new node(i[1] , i[2] ) );
+        // fewest flights used when each city was polled
+        int[] minStops = new int[n];
+        Arrays.fill(minStops, Integer.MAX_VALUE);
 
+        PriorityQueue<city> pq = new PriorityQueue<>((a, b) -> a.price - b.price);
+        pq.add(new city(src, 0, 0));
+
+        while (!pq.isEmpty()) {
+            city curr = pq.poll();
+
+            // cheapest valid path to dst, since pq polls by price
+            if (curr.node == dst) return curr.price;
+
+            // no flights left from here (stops counts flights taken)
+            if (curr.stops > k) continue;
+
+            // dominated: this city was already polled cheaper with fewer or equal flights
+            if (curr.stops >= minStops[curr.node]) continue;
+            minStops[curr.node] = curr.stops;
+
+            for (int[] a : g.get(curr.node))
+                pq.add(new city(a[0], curr.price + a[1], curr.stops + 1));
         }
-        Queue<node> q = new LinkedList<>();
-        q.add(new node(src , 0));
-        int count = -1;
-        boolean found = false;
-        int best[] = new int[num];
-        Arrays.fill(best , Integer.MAX_VALUE);
-        best[src]= 0;
-        while(!q.isEmpty()){
-            int size = q.size();
-            count++;
-            
-            if(count>k) break;
-            for(int i=0 ; i<size ; i++){
-                node temp = q.poll();
-                int currnode = temp.n;
-                int currprice = temp.price;
-                for(node neigh : g.get(currnode)){
-                    if(best[neigh.n] > currprice + neigh.price  ){
-                        best[neigh.n] = currprice + neigh.price;
-                        q.add(new node(neigh.n , best[neigh.n]));
-                    }
-                }
-            }
-        }
-        if(best[dst] == Integer.MAX_VALUE) return -1;
-        return best[dst];
+
+        return -1;
     }
 }
