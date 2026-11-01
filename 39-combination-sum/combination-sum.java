@@ -1,26 +1,20 @@
 class Solution {
-    
+    List<List<Integer>> ans = new ArrayList<>();
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-         List<List<Integer>> sol=new ArrayList<>(); 
-         List<Integer> ans=new ArrayList<>();
-         kar(0 , sol , ans , target , candidates , 0);
-         return sol;
+        List<Integer> sol = new ArrayList<>();
+        kar(candidates , target , 0 , sol , 0);
+        return ans;
     }
-    public void kar( int index, List<List<Integer>> sol ,  List<Integer> ans , int t, int a[] , int sum){
-        if( sum == t){
-            sol.add(new ArrayList<>(ans));
-            return ;
+    public void kar(int nums[] , int t , int sum , List<Integer> sol,  int index){
+        if(sum==t){
+            ans.add(new ArrayList<>(sol));
+            return;
         }
-       
-        for(int i= index ; i<a.length ; i++){
-            if(sum + a[i] <= t ){
-            sum+=a[i];
-            ans.add(a[i]);
-            kar(i , sol , ans , t , a, sum);
-            sum-=a[i];
-            ans.remove(ans.size() -1);
-        }
-       
+        for(int i=index ; i<nums.length ; i++){
+            if(t < sum+nums[i]) continue;
+            sol.add(nums[i]);
+            kar(nums , t , sum+nums[i], sol , i);
+            sol.remove(sol.size()-1);
         }
     }
 }
